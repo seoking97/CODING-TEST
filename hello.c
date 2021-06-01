@@ -2,7 +2,7 @@
 
 int main(){
   
-  print("hello")  
+  printf("hello")  
 
 }
 
