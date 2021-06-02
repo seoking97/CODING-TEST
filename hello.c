@@ -2,7 +2,8 @@
 
 int main(){
   
-  printf("hello"); 
+  printf("hello\n"); 
+  printf("my name is Lee");
 
 }
 
