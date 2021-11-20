@@ -1,0 +1,46 @@
+# DFS
+n, m, start = map(int, input().split())
+
+graph = [[] for i in range(n+1)] 
+for i in range(m):
+    x, y = map(int, input().split())
+    graph[x].append(y)
+    graph[y].append(x)
+    
+for i in range(len(graph)):
+    graph[i].sort()
+
+visit = [0 for i in range(n+1)] 
+visit_b = [0 for i in range(n+1)] 
+
+def dfs(start):
+    if visit[start] == 1:
+        return 
+    
+    print(start, end=" ")
+    visit[start] = 1
+  
+    for i in graph[start]:
+        dfs(i)
+# BFS
+from collections import deque 
+q = deque()
+
+def bfs(start):
+    
+    q.append(start)
+    while q:
+        start = q.popleft()
+    
+        if visit_b[start] == 1:
+            continue 
+        
+        print(start, end=" ")
+        visit_b[start] = 1
+
+        for i in graph[start]:
+            q.append(i)
+             
+dfs(start)
+print()
+bfs(start)
