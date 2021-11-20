@@ -1,0 +1,44 @@
+import sys
+sys.setrecursionlimit(10**6)
+t = int(input())
+
+def dfs(x,y):
+            
+    if x >= m or x <= -1 or y >= n or y <= -1:
+       return False
+    if graph[x][y] == 0 or visit[x][y] == 1:
+       return False 
+            
+    visit[x][y] = 1
+            
+    dfs(x-1,y)
+    dfs(x+1,y)
+    dfs(x,y-1)
+    dfs(x,y+1)
+            
+    return True 
+        
+
+result = []
+for i in range(t):
+    n, m, k = map(int, input().split())
+    
+    graph = [[0]*n for i in range(m)]
+    visit = [[0]*n for i in range(m)]
+    
+    for j in range(k):
+        y, x = map(int, input().split())
+        graph[x][y] = 1
+         
+    count = 0
+    for a in range(m):
+        for b in range(n):
+            
+            if dfs(a,b) == True:
+                count += 1
+    
+    result.append(count)
+    
+for i in result:
+    print(i)
+        
