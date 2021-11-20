@@ -1,0 +1,25 @@
+vertex = int(input())
+edge = int(input())
+
+graph = [[] for i in range(vertex+1)]
+for i in range(edge):
+    x, y = map(int, input().split())
+    graph[x].append(y)
+    graph[y].append(x)
+
+visit = [0 for i in range(vertex+1)]
+count = []
+def dfs(start):
+
+    if visit[start] == 1:
+        return 
+    
+    visit[start] = 1
+    count.append(0)
+
+    for i in graph[start]:
+        dfs(i)
+    return
+
+dfs(1)
+print(len(count)-1)
