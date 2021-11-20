@@ -1,0 +1,55 @@
+from collections import deque 
+q = deque()
+
+n = int(input())
+
+graph = []
+for i in range(n):
+    tmp = list(map(int, input()))
+    graph.append(tmp)
+    
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+visit = [[0]*n for _ in range(n)]
+
+
+result = []
+def bfs(x,y):
+    
+    count = 0
+    q.append((x,y))
+    visit[x][y] = 1
+    count += 1
+    
+    while q:
+        
+        x, y = q.popleft()
+        
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            
+            if nx <= -1 or nx >= n or ny <= -1 or ny >= n:
+                continue 
+            
+            if visit[nx][ny] == 1 or graph[nx][ny] == 0:
+                continue 
+            
+            visit[nx][ny] = 1
+            q.append((nx,ny))
+            count += 1
+    result.append(count)
+   
+
+time = 0             
+for i in range(n):
+    for j in range(n):
+        if visit[i][j] == 0 and graph[i][j] == 1:
+            bfs(i,j)
+            time += 1
+
+print(time)
+result.sort()
+for i in result:
+    print(i)
