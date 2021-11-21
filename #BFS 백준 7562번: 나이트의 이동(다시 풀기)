@@ -1,0 +1,36 @@
+from collections import deque 
+
+num = int(input())
+move = [(-2,-1),(-1,-2),(1,-2),(2,-1),(-2,1),(-1,2),(2,1),(1,2)]
+
+def bfs(x, y, visit, x_fin, y_fin, n):
+    
+
+    q = deque()
+    q.append((x,y))
+    
+    if x == x_fin and y == y_fin:
+        return 0 
+    while q:
+        x, y = q.popleft()
+        
+        for dx,dy in move:
+            nx = dx + x
+            ny = dy + y
+            
+            if nx < 0 or nx >= n or ny < 0 or ny >= n:
+                continue 
+            if visit[nx][ny] == 0:
+                visit[nx][ny] = visit[x][y] + 1
+                q.append((nx,ny))
+            
+    return visit[x_fin][y_fin]
+
+for i in range(num):
+    n = int(input())
+    visit = [[0]*n for i in range(n)]
+    x_now, y_now = map(int, input().split())
+    x_fin, y_fin = map(int, input().split())
+    
+    count = bfs(x_now, y_now, visit, x_fin, y_fin, n)
+    print(count)
