@@ -1,0 +1,53 @@
+# 시작위치: (0,0) 종료위치: (n-1,m-1)
+# 최단 경로, 벽 1개까지는 부술 수 있다. 
+# 0: 이동할 수 있음 1: 이동할 수 없음 
+# n: 행, m: 열
+# graph = 좌표 정보 입력, visit = 방문 표시(한 칸에 벽을 부쉈을 때와 안 부쉈을 때, 2가지로 나뉨)
+
+from collections import deque
+n, m = map(int, input().split())
+
+graph = []
+for i in range(n):
+    tmp = list(map(int,input()))
+    graph.append(tmp)
+
+visit = [[[0]*2 for i in range(m)] for i in range(n)]
+
+q = deque()
+
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+def bfs(x,y,z):
+    
+    visit[x][y][z] = 1
+    q.append((x,y,z))
+   
+    
+    while q:
+        x, y, z = q.popleft()
+        
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            
+            if 0 <= nx < n and 0 <= ny < m:
+                
+                # 벽을 안 부쉈을 때 
+                if graph[nx][ny] == 1 and z == 0:
+                    visit[nx][ny][1] = visit[x][y][0] + 1
+                    q.append((nx,ny,1))
+                
+                # 벽을 한번 부쉈을 때 
+                elif graph[nx][ny] == 0 and visit[nx][ny][z] == 0:
+                    visit[nx][ny][z] = visit[x][y][z] + 1
+                    q.append((nx,ny,z))
+    
+    return visit[n-1][m-1][z]                  
+
+tmp = bfs(0,0,0)      
+if tmp == 0:
+    print(-1)
+else:
+    print(tmp)
