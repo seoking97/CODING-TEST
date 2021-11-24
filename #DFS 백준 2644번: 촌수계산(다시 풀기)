@@ -1,0 +1,32 @@
+# 부모-자식: 1촌 
+# 나-할아버지: 2촌 
+# 나-아버지 형제: 3촌 
+# n: 전체 사람 수 
+# a, b 두사람의 촌수 구하기 
+
+
+n = int(input())
+List = [[] for i in range(n+1)]
+visit = [0 for i in range(n+1)]
+a, b = map(int, input().split())
+
+num = int(input())
+for i in range(num):
+    x, y = map(int, input().split())
+    List[x].append(y)
+    List[y].append(x)
+
+
+def dfs(start): 
+    for i in List[start]:      
+        if visit[i] == 0:  
+            visit[i] = visit[start] + 1          
+            dfs(i)
+    
+
+dfs(a)
+if visit[b] == 0:
+    print(-1)
+else:
+    print(visit[b])
+    
