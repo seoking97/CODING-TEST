@@ -13,7 +13,6 @@ dy = [0,0,-1,1]
 
 visit = [[0]*n for _ in range(n)]
 
-
 result = []
 def bfs(x,y):
     
