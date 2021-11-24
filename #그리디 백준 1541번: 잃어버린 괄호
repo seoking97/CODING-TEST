@@ -1,0 +1,20 @@
+# 연속해서 두 개 이상의 연산자가 나타나지x 
+# 5자리보다 많이 연속되는 숫자는 없다. 
+# ['55', '50+40', '90+80+70'] -> 55-50+40-90+80+70
+
+num = list(input().split('-'))
+
+result = []
+for i in num:
+    tmp = list(map(int,i.split('+')))
+    tmp_s = sum(tmp)
+    result.append(tmp_s)
+
+result_sum = 0
+for i in range(len(result)):
+    if i == 0:
+        result_sum = result[i]
+    else:
+        result_sum -= result[i]
+        
+print(result_sum)
