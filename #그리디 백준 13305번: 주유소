@@ -1,0 +1,22 @@
+# 1km = 1L 
+# 최소 비용
+# 도시마다 L당 기름 값 다름 n = 도시 갯수, e = 간선, oi = 도시 당 기름 
+# 현재 위치에서의 기름 가격보다 싼 도시 전까지, 현재 가격으로 기름을 미리 채워놓기
+n = int(input())
+
+e = list(map(int, input().split()))
+oi = list(map(int, input().split()))
+
+result = 0
+tmp = 10000
+for i in range(len(oi)-1):
+    if i == 0:
+        result = oi[i]*e[i]
+    
+    else:
+        if tmp > oi[i]:
+            tmp = oi[i]
+        result = result + tmp * e[i]
+
+print(result)
+                
