@@ -1,0 +1,29 @@
+testcase = int(input())
+
+for _ in range(testcase):
+    _, text = map(int,input().split())  
+    
+    num = list(map(int, input().split()))    
+    idx = list(range(len(num)))
+    
+    idx[text] = 'R'
+    
+    count = 0
+    while True:
+        
+        if num[0] == max(num):
+            count += 1
+            
+            if idx[0] == 'R':
+                print(count)
+                break
+            
+            else:
+                num.pop(0)
+                idx.pop(0)
+            
+        else:
+            num.append(num.pop(0))
+            idx.append(idx.pop(0))
+            
+    
