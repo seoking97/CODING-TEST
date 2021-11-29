@@ -1,0 +1,20 @@
+# (x,y) 좌표 
+# xy_time: 평행, z_time: 대각선 
+# move1: 평행
+# move2: 짝수(대각선), 홀수(평행1번 + 대각선)
+# move3: 평행(최대한) + 대각선 
+
+x, y, xy_time, z_time = map(int, input().split())
+
+move1 = (x + y) * xy_time
+
+if (x + y) % 2 == 0:
+    move2 =  max(x,y) * z_time    
+else: 
+    move2 = (max(x,y) - 1) * z_time + xy_time 
+    
+move3 = (min(x,y) * z_time) + (abs(x-y) * xy_time) 
+
+print(min(move1, move2, move3))
+    
+        
