@@ -1,0 +1,14 @@
+import sys
+n = int(input())
+
+li = [0] * 10001
+
+for i in range(n):
+    tmp = int(sys.stdin.readline())
+    li[tmp] += 1
+
+
+
+for i in range(10000+1):
+    for _ in range(li[i]):
+        print(i)
