@@ -1,0 +1,34 @@
+import sys
+from collections import Counter
+n = int(input())
+
+l = []
+for _ in range(n):
+    l.append(int(input()))
+
+#1. 산술평균 
+print(round(sum(l)/n))
+
+#2. 중앙값
+l.sort()
+print(l[n//2])
+
+#3. 최빈값 
+# Counter({-2: 2, 1: 1, 3: 1, 4: 1, 5: 1}) 형태 
+# most_common(갯수) -> 빈도가 높은 순으로 갯수만큼 출력 
+if n == 1:
+    print(l[0])
+
+else:
+    tmp = Counter(l)
+    counter = tmp.most_common(2)
+    
+    if counter[0][1] == counter[1][1]:
+        print(counter[1][0])
+    
+    else:
+        print(counter[0][0])
+    
+    
+#4. 범위
+print(max(l) - min(l))
