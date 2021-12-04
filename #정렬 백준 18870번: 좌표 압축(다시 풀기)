@@ -1,0 +1,11 @@
+import sys
+
+num = int(input())
+l = list(map(int, sys.stdin.readline().split()))
+
+tmp = sorted(list(set(l)))
+result = {tmp[i]: i for i in range(len(tmp))}
+
+for i in l:
+    print(result[i], end=" ")
+    
