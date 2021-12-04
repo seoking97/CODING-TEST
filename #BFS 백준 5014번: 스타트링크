@@ -1,0 +1,33 @@
+# u: 올라가는 층수, d: 내려가는 층수 
+# 1층 - F층으로 구성된 건물 
+# s층 -> g층으로 이동 
+from collections import deque
+f, s, g, u, d = map(int, input().split())
+visit = [0 for _ in range(f+1)]
+l = [+u, -d]
+
+def bfs(now,visit):
+    
+    q = deque()
+    q.append(now)
+    visit[now] = 1
+    
+    while q:
+        now = q.popleft()  
+        if now == g:
+            break 
+
+        for i in range(2):
+            tmp = now + l[i]                  
+            if 1 <= tmp <= f and visit[tmp] == 0:
+                visit[tmp] = visit[now] + 1 
+                q.append(tmp)
+                
+    return visit[g]
+
+result = bfs(s,visit)
+if result == 0:
+    print("use the stairs")
+
+else:
+    print(result-1)
