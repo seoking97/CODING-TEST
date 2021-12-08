@@ -1,0 +1,92 @@
+# 학생 1 - n*n 
+# r: 행, c:열 
+# (0,0) - (n-1,n-1)
+# 인접의 정의: abs(r1-r2) + abs(c1-c2) = 1
+# 우선순위1. 비어있는 칸 중, 좋아하는 학생이 인접한 칸에 가장 많은 칸을 선택
+# 순위2. 1을 만족하는 칸이 여러 개 이면, 인접한 칸 중 비어있는칸이 가장 많은 칸 선택
+# 순위3. 2를 만족하는 칸이 여러 개이면, 1.행의번호 작은순 2.행의번호도 같으면 열의번호
+# 거꾸로 수행하면은 순위3번은 저절로 구현된다!!(단 같을 경우에도 바꿔줘야 됨)
+
+num = int(input())
+n2 = num*num
+
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+student = {} 
+for i in range(1,n2+1):
+    student[i] = 0
+
+info = []
+for _ in range(n2): 
+    t1, t2, t3, t4, t5 = map(int, input().split())
+    info.append([t1,t2,t3,t4,t5])
+
+for i in info:
+    student[i[0]] = i[1:]
+graph = [[0]*num for _ in range(num)]
+
+
+def dfs(start):
+    global graph, student, dx, dy, num
+    max_f, max_emp, cur_x, cur_y = -1, -1, -1, -1 
+    
+    for i in range(num-1,-1,-1):
+        for j in range(num-1,-1,-1):
+            cnt_f, cnt_emp = 0, 0
+            
+            if graph[i][j] == 0:
+                for k in range(4):
+                    nx = dx[k] + i
+                    ny = dy[k] + j
+                    
+                    if nx >= num or nx < 0 or ny >= num or ny < 0:
+                        continue 
+                    
+                    if graph[nx][ny] == 0:
+                        cnt_emp += 1
+                    
+                    if graph[nx][ny] in student[start]:
+                        cnt_f += 1
+                
+                if max_f <= cnt_f:
+                    if max_f == cnt_f:
+                        if max_emp <= cnt_emp:
+                            cur_x = i
+                            cur_y = j
+                            max_emp = cnt_emp
+                            max_f = cnt_f 
+                    
+                    else:
+                         cur_x = i
+                         cur_y = j
+                         max_emp = cnt_emp
+                         max_f = cnt_f 
+    return cur_x, cur_y
+
+
+for i in info:
+    x, y = dfs(i[0])
+    graph[x][y] = i[0]
+
+    
+ans = 0
+for i in range(num):
+    for j in range(num):
+        cur_num = 0
+        for k in range(4):
+            nx = i+dx[k]
+            ny = j+dy[k]
+            
+            if(0<=nx<num) and (0<=ny<num):
+                if(graph[nx][ny] in student[graph[i][j]]):
+                    cur_num+=1
+        if(cur_num==1):
+            ans+=1
+        elif(cur_num==2):
+            ans+=10
+        elif(cur_num==3):
+            ans+=100
+        elif(cur_num==4):
+            ans+=1000
+print(ans)
