@@ -1,0 +1,43 @@
+# 시작점: (0,0), 종료점:(행:n-1,열:m-1)
+# d = 0, 1, 2, 3 / 북, 동, 남, 서
+# 청소표시:5
+# 공식외우기! 4개방향 존재할 때, 후진공식: (d+2)%4!! 
+
+n, m = map(int, input().split())
+graph = []
+now_x, now_y, d = map(int,input().split())
+
+dx = [-1,0,1,0]
+dy = [0,1,0,-1]
+
+for _ in range(n):
+    tmp = list(map(int, input().split()))
+    graph.append(tmp)
+    
+cnt = 0
+def dfs(x,y,d):
+    global graph, cnt  
+    
+    if graph[x][y] == 0:
+        graph[x][y] = 5
+        cnt+= 1
+        
+    for i in range(4):
+        tmp = (d+3) % 4
+        nx = x + dx[tmp]
+        ny = y + dy[tmp]
+         
+        if graph[nx][ny] == 0:
+            dfs(nx,ny,tmp)
+            return 
+        d = tmp
+        
+    tmp = (d+2) % 4
+    nx = x + dx[tmp]
+    ny = y + dy[tmp]
+    if graph[nx][ny] == 1:
+        return
+    dfs(nx,ny,d)
+             
+dfs(now_x,now_y,d)
+print(cnt)
