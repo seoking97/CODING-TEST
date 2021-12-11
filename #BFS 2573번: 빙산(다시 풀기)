@@ -1,0 +1,65 @@
+-> 백준 https://www.acmicpc.net/problem/2573
+# 바다: 0, 빙산의 높이: 숫자
+# 1년마다 해당칸의 동서남북 4방향에 있는 0의 갯수만큼 높이가 줄음(최저 높이는 0)
+# 동서남북으로 붙어있는 칸들은 서로 연결되어 있는 것
+# 빙산이 두 덩어리 이상으로 분리되는 최초의 시간 구하기 
+# n: 행, m: 열 / 시작:(0,0), 끝:(n-1,m-1)
+
+from collections import deque
+import sys
+n, m = map(int,input().split())
+
+graph = []
+
+for _ in range(n):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    graph.append(tmp)
+
+dx = [0,0,1,-1]
+dy = [1,-1,0,0]
+    
+
+def bfs(x,y,visit):
+    q = deque()
+    change = deque()
+    q.append((x,y))
+    visit[x][y] = 1
+    
+    while q:
+        x,y = q.popleft() 
+        cnt = 0
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            
+            if (0<=nx<n) and (0<=ny<m) and visit[nx][ny] == 0:
+                if graph[nx][ny] == 0 :
+                    cnt += 1
+                elif graph[nx][ny] > 0:
+                    q.append((nx,ny))
+                    visit[nx][ny] = 1
+                    
+        if cnt: 
+            change.append((x,y,cnt))
+    return change
+
+year = 0
+while True:
+    count = 0
+    visit = [[0]*m for _ in range(n)]
+    for i in range(n-1):
+        for j in range(m-1):
+            if graph[i][j] != 0 and visit[i][j] == 0:
+                   change = bfs(i,j,visit)
+                   count += 1
+                   while change:
+                       x, y, cnt = change.popleft()
+                       graph[x][y] = max(graph[x][y]-cnt,0)
+    if count == 0:
+        year = 0
+        break
+    if count >= 2:
+        break     
+    year += 1       
+print(year)
+        
