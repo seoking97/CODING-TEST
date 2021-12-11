@@ -1,0 +1,61 @@
+# 한 문자는 한 오리가 낸 소리, 오리의 최소 개수를 구하는 프로그램 
+# q: 리스트 시작, K: 리스트 종료 
+# 구현시간: 1시간 30분 / 풀이 이해: 1시간 
+duck = input()
+visited = [0] * len(duck)
+cnt = 0
+
+if len(duck) % 5 != 0:
+    print(-1)
+    exit()
+
+def solve(start):
+    global cnt
+    prev = None
+    k_cnt = 0
+    q_cnt = 0
+    for i in range(start, len(duck)):
+        # q를 리스트에 삽입할 때, 처음인 경우 
+        if visited[i] == 0 and duck[i] == 'q' and q_cnt == 0: 
+            visited[i] = True
+            prev = duck[i]
+            q_cnt += 1
+        # 한마리의 오리가 연속으로 소리낼 수 있음, 단 이전알파벳이 끝을 가리키는 k여야함 
+        elif visited[i] == 0 and duck[i] == 'q' and prev == 'k':
+            visited[i] = True
+            prev = duck[i]
+
+        elif visited[i] == 0 and duck[i] == 'u' and prev == 'q':
+            visited[i] = True
+            prev = duck[i]
+
+        elif visited[i] == 0 and duck[i] == 'a' and prev == 'u':
+            visited[i] = True
+            prev = duck[i]
+
+        elif visited[i] == 0 and duck[i] == 'c' and prev == 'a':
+            visited[i] = True
+            prev = duck[i]
+
+        # 한마리의 오리가 연속으로 소리낼 수 있음, 그래서 처음에만 카운트해줌
+        elif visited[i] == 0 and duck[i] == 'k' and prev == 'c' and k_cnt == 0:
+            visited[i] = True
+            prev = duck[i]
+            cnt += 1
+            k_cnt += 1
+            return 
+        # 연속으로 소리내는 경우, 굳이 카운트 할 필요없음, k_cnt로 구별해줘야함! 
+        elif visited[i] == 0 and duck[i] == 'k' and prev == 'c' and k_cnt > 0:
+            visited[i] = True
+            prev = duck[i]
+            
+
+for i in range(len(duck)):
+    if duck[i] == 'q' and visited[i] == 0:
+        solve(i)
+
+if False in visited or cnt == 0:
+    print(-1)
+else:
+    print(cnt)
+ 
