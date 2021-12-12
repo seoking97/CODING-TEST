@@ -1,0 +1,58 @@
+from collections import deque
+import sys 
+n, l, r = map(int, input().split())
+
+dx = [1,-1,0,0]
+dy = [0,0,-1,1]
+
+graph = []
+for _ in range(n):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    graph.append(tmp)
+
+def bfs(x,y,visit):
+    q = deque()
+    union = deque()
+    q.append((x,y))
+    union.append((x,y))
+    visit[x][y] = 1
+    
+    su, cnt = 0,1
+    su += graph[x][y]
+
+    while q:
+        x,y = q.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            
+            if (0<=nx<n) and (0<=ny<n) and visit[nx][ny] == 0:
+                 tmp = abs(graph[x][y] - graph[nx][ny])
+                 if (l<=tmp<=r):
+                     q.append((nx,ny))
+                     visit[nx][ny] = 1
+                     union.append((nx,ny))
+                     su += graph[nx][ny]
+                     cnt+=1 
+    return union, su, cnt 
+
+count = 0
+for _ in range(2000):
+    visit = [[0]*n for _ in range(n)]
+    search = 0
+    for i in range(n):
+        for j in range(n):        
+            if visit[i][j] == 0 and graph[i][j] >= l:
+                union, su, cnt = bfs(i,j,visit)
+                if cnt > 1: search = 1
+                while union:
+                    x,y=union.popleft()
+                    graph[x][y] = (su // cnt)
+                         
+    if search == 0:
+        break
+    
+    count += 1  
+           
+print(count)               
+            
