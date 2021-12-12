@@ -1,0 +1,36 @@
+# 종이 접기를 한번 할 때마다, 두께는 2배가 되고 길이는 절반
+# 겹치고서부터 반을 접을 때마다, 0과1이 서로 있어야 접을 수 있음 
+# 1+0 = 1이여야 해당부분을 접을 수 있음
+# 여러겹 겹쳐지는 경우 어차피 맨밑바닥이 기준이므로 이것만 가지고도 풀수 있음
+
+n = int(input())
+for _ in range(n):
+    tmp = list(map(int,input()))
+
+    if len(tmp) == 1:
+        print("YES")
+        continue 
+    
+    find = 1
+    while find == 1:
+     
+        tmp.pop(len(tmp)//2)
+        for i in range(len(tmp)//2):
+            if tmp[i] + tmp[len(tmp)-1-i] != 1:
+                find = 0
+                break
+        
+        if len(tmp) == 2:
+            if tmp[0] + tmp[1] != 1:
+                find = 0
+            break 
+        tmp = tmp[:len(tmp)//2]
+        
+        
+    if find == 0:
+        print("NO")
+    else:
+        print("YES")
+            
+    
+    
